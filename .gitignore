@@ -1,0 +1,32 @@
+# Default to ignore everything!
+*
+
+# Settings for .dotfiles repo.
+!.gitignore
+!CHANGELOG.md
+!README.md
+!Setup.ps1
+
+# Components
+!Components
+Components/*
+
+# AutoHotKey
+!Components/AutoHotKey
+!Components/AutoHotKey/*
+
+# OhMyPosh
+!Components/OhMyPosh
+!Components/OhMyPosh/*
+
+# PowerShell
+!Components/PowerShell
+!Components/PowerShell/*
+
+# Terminal
+!Components/Terminal
+!Components/Terminal/*
+
+# VSCode
+!Components/VSCode
+!Components/VSCode/*

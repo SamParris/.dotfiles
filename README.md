@@ -1,1 +1,1 @@
-# .dotfiles
+# > .dotfiles (Windows Environment Configuration) 🖥️
