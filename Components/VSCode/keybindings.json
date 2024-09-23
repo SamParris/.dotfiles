@@ -1,0 +1,36 @@
+[
+    {
+        "key": "alt+d",
+        "command": "workbench.action.nextEditorInGroup"
+    },
+    {
+        "key": "alt+a",
+        "command": "workbench.action.previousEditorInGroup"
+    },
+    {
+        "key": "alt+shift+d",
+        "command": "workbench.action.focusNextGroup"
+    },
+    {
+        "key": "alt+shift+a",
+        "command": "workbench.action.focusPreviousGroup"
+    },
+    {
+        "key": "alt+e",
+        "command": "workbench.explorer.fileView.focus"
+    },
+    {
+        "key": "ctrl+k",
+        "command": "workbench.action.closeUnmodifiedEditors"
+    },
+    {
+        "key": "ctrl+n",
+        "command": "explorer.newFile",
+        "when": "filesExplorerFocus"
+    },
+    {
+        "key": "ctrl+shift+n",
+        "command": "explorer.newFolder",
+        "when": "filesExplorerFocus"
+    }
+]

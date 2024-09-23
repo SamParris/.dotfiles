@@ -1,0 +1,72 @@
+{
+    // Theme Settings.
+    "workbench.colorTheme": "Atomify",
+    "workbench.iconTheme": "material-icon-theme",
+
+    // Font Settings.
+    "editor.fontFamily": "Hack Nerd Font",
+    "terminal.integrated.fontFamily": "Hack Nerd Font",
+    "markdown.preview.fontFamily": "Hack Nerd Font",
+    "editor.fontSize": 14,
+    "terminal.integrated.fontSize": 14,
+
+    // ErrorLens Settings.
+    "errorLens.fontStyleItalic": true,
+    "errorLens.gutterIconsEnabled": true,
+    "errorLens.gutterIconSet": "squareRounded",
+    "errorLens.gutterIconSize": "125%",
+
+    // Todo-Tree Settings.
+    "todo-tree.general.tags": [
+        "BUG",
+        "NOTE",
+        "TASK",
+        "SUBTASK"
+    ],
+    "todo-tree.highlights.customHighlight": {
+        "BUG": {
+            "foreground": "#FFFF00",
+            "icon": "bug",
+            "iconColour": "#FFFF00"
+        },
+        "NOTE": {
+            "foreground": "#ff67ff",
+            "icon": "tag",
+            "iconColour": "#ff67ff"
+        },
+        "TASK": {
+            "foreground": "#16CFF0",
+            "icon": "tasklist",
+            "iconColour": "#16CFF0"
+        },
+        "SUBTASK": {
+            "foreground": "#80ef80",
+            "icon": "pencil",
+            "iconColour": "#80ef80"
+        }
+    },
+    "todo-tree.highlights.defaultHighlight": {
+        "gutterIcon": true,
+        "opacity": 75,
+        "type": "line"
+    },
+    "todo-tree.tree.disableCompactFolders": true,
+    "todo-tree.tree.showCountsInTree": true,
+
+    // UI Settings.
+    "editor.minimap.enabled": false,
+    "editor.scrollbar.vertical": "auto",
+    "editor.scrollbar.horizontal": "auto",
+    "window.commandCenter": false,
+
+    // Misc
+    "editor.cursorBlinking": "expand",
+    "workbench.startupEditor": "none",
+    "editor.linkedEditing": true,
+    "files.trimTrailingWhitespace": true,
+    "[markdown]": {
+        "files.trimTrailingWhitespace": false
+    },
+    "editor.bracketPairColorization.enabled": true,
+    "workbench.editor.enablePreview": false
+}
