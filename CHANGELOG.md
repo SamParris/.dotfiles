@@ -1,5 +1,14 @@
 # Changelog for .dotfiles
 
+## v1.1.1 👍
+
++ Minor file updates and issue fixes
+    + \Components\VSCode
+        + Updates to [`settings.json`](Components\VSCode\settings.json)
+    + \Components\OhMyPosh
+        + Fix spelling mistake in [`README.md`](Components\OhMyPosh\README.md) (Fixes GitHub Issue [#1](https://github.com/SamParris/.dotfiles/issues/1))
+        + Updated Git Status colours in [`OhMyPoshTheme.json`](Components\OhMyPosh\OhMyPoshTheme.json) (Fixes GitHub Issue [#2](https://github.com/SamParris/.dotfiles/issues/2))
+
 ## v1.1.0 🐱‍🏍
 
 + Updates to [`README.md`](README.md)

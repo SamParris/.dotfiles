@@ -52,9 +52,10 @@
                 {
                     "type": "git",
                     "style": "powerline",
+                    "foreground": "#FFBF00",
                     "foreground_templates": [
-                        "{{ if or (.Working.Changed) (.Staging.Changed) }}#ffdd5b{{ end }} ",
-                        "{{ if and (gt .Ahead 0) (gt .Behind 0) }}#FFCC80{{ end }} ",
+                        "{{ if or (.Working.Changed) (.Staging.Changed) }}#80B3FF{{ end }} ",
+                        "{{ if and (gt .Ahead 0) (gt .Behind 0) }}#FF80B3{{ end }} ",
                         "{{ if gt .Ahead 0 }}#98FB98{{ end }} ",
                         "{{ if gt .Behind 0 }}#B388FB{{ end }} "
                     ],

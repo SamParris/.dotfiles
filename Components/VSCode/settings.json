@@ -59,6 +59,13 @@
     "editor.scrollbar.horizontal": "auto",
     "window.commandCenter": false,
 
+    //CodeSpellChecker
+    "cSpell.words": [
+        "colour",
+        "colours",
+        "dotfiles"
+    ],
+
     // Misc
     "editor.cursorBlinking": "expand",
     "workbench.startupEditor": "none",
