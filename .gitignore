@@ -26,6 +26,8 @@ Components/*
 # Terminal
 !Components/Terminal
 !Components/Terminal/*
+!Components/Terminal/TerminalIcons
+!Components/Terminal/TerminalIcons/*
 
 # VSCode
 !Components/VSCode

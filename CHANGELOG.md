@@ -1,11 +1,30 @@
 # Changelog for .dotfiles
 
+## v1.1.3 ❤️
+
++ Updates to [`.gitignore`](.gitignore)
++ Updates to [`.README.md`](README.md)
++ Minor Issue Fixes
+    + \Components\AutoHotKey
+        + Rename [`README.md`](Components/AutoHotKey/README.md) file (Fixes GitHub Issue [#6](https://github.com/SamParris/.dotfiles/issues/6))
+    + \Components\OhMyPosh
+        + Rename [`README.md`](Components/OhMyPosh/README.md) file (Fixes GitHub Issue [#6](https://github.com/SamParris/.dotfiles/issues/6))
+    + \Components\VSCode
+        + Rename [`README.md`](Components/VSCode/README.md) file (Fixes GitHub Issue [#6](https://github.com/SamParris/.dotfiles/issues/6))
++ Creation and initial commit for Terminal Icon files
+    + \Components\Terminal
+        + [`README.md`](Components/Terminal/README.md)
+        + [`settings.json`](Components/Terminal/settings.json)
+    + \Components\Terminal\TerminalIcons
+        + [`ColourConfig.psd1`](Components/Terminal/TerminalIcons/ColourConfig.psd1)
+        + [`IconConfig.psd1`](Components/Terminal/TerminalIcons/IconConfig.psd1)
+        + [`TerminalIconsImage.PNG`](Components/Terminal/TerminalIcons/TerminalIconsImage.PNG)
 ## v1.1.2 ⭐
 
 + Minor Issue Fixes
     + \Components\OhMyPosh
         + Fix link to OhMyPosh Website in [`README.md`](Components/OhMyPosh/README.md) (Fixes GitHub Issue [#5](https://github.com/SamParris/.dotfiles/issues/5))
-        + Update "Whats Included?" Section to use bulletpoints in [`README.md`](Components/OhMyPosh/README.md) (Fixes GitHub Issue [#3](https://github.com/SamParris/.dotfiles/issues/3))
+        + Update "Whats Included?" Section to use bullet points in [`README.md`](Components/OhMyPosh/README.md) (Fixes GitHub Issue [#3](https://github.com/SamParris/.dotfiles/issues/3))
 
 ## v1.1.1 👍
 
