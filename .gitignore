@@ -15,6 +15,14 @@ Components/*
 !Components/AutoHotKey
 !Components/AutoHotKey/*
 
+# Nvim
+!Components/Nvim
+!Components/Nvim/*
+!Components/Nvim/lua
+!Components/Nvim/lua/*
+!Components/Nvim/lua/user
+!Components/Nvim/lua/user/*
+
 # OhMyPosh
 !Components/OhMyPosh
 !Components/OhMyPosh/*

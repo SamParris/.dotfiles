@@ -1,5 +1,16 @@
 # Changelog for .dotfiles
 
+## v1.2.1 ✨
+
++ Updates to [`.gitignore`](.gitignore)
++ Creation and initial commit for files
+    + \Components\Nvim
+        + [`init.lua`](Components/Nvim/init.lua)
+        + [`README.md`](Components/Nvim/README.md)
+    + \Components\Nvim\lua\user
+        + [`keymaps.lua`](Components/Nvim/lua/user/keymaps.lua)
+        + [`options.lua`](Components/Nvim/lua/user/options.lua)
+
 ## v1.2.0 💥
 
 + First major update to [`Setup.ps1`](Setup.ps1)
