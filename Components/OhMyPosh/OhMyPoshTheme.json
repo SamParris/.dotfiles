@@ -2,6 +2,9 @@
     "$schema": "https://raw.githubusercontent.com/JanDeDobbeleer/oh-my-posh/main/themes/schema.json",
     "final_space": true,
     "version": 2,
+    "var": {
+        "dotfiles": "$ENV:dotfiles_update_available"
+    },
     "blocks": [
         {
             "type": "prompt",
@@ -10,7 +13,7 @@
                 {
                     "type": "session",
                     "style": "plain",
-                    "foreground": "#0AD1C8",
+                    "foreground": "#5ef1ff",
                     "template": "\u256d("
                 },
                 {
@@ -24,13 +27,25 @@
                 {
                     "type": "session",
                     "style": "plain",
-                    "foreground": "#0CA0D8",
+                    "foreground": "#bd5eff",
                     "template": "{{ .UserName }}"
+                },
+                {
+                    "type": "text",
+                    "style": "plain",
+                    "foreground": "#FAFA33",
+                    "template": "{{ if .Env.DOTFILES_UPDATE_AVAILABLE }} \udb85\udc5f{{ end }}"
+                },
+                {
+                    "type": "text",
+                    "style": "plain",
+                    "foreground": "#FAFA33",
+                    "template": "{{ if .Env.SOFTWARE_UPDATE_AVAILABLE }} \udb86\uddd5{{ end }}"
                 },
                 {
                     "type": "session",
                     "style": "plain",
-                    "foreground": "#0AD1C8",
+                    "foreground": "#5ef1ff",
                     "template": " )-["
                 },
                 {
@@ -53,32 +68,70 @@
                     "type": "git",
                     "style": "powerline",
                     "foreground": "#FFBF00",
-                    "foreground_templates": [
-                        "{{ if or (.Working.Changed) (.Staging.Changed) }}#80B3FF{{ end }} ",
-                        "{{ if and (gt .Ahead 0) (gt .Behind 0) }}#FF80B3{{ end }} ",
-                        "{{ if gt .Ahead 0 }}#98FB98{{ end }} ",
-                        "{{ if gt .Behind 0 }}#B388FB{{ end }} "
-                    ],
-                    "template": " {{ .UpstreamIcon }}{{ .HEAD }}{{if .BranchStatus }} {{ .BranchStatus }}{{ end }}{{ if .Working.Changed }}  {{ .Working.String }}{{ end }}{{ if and (.Working.Changed) (.Staging.Changed) }} |{{ end }}{{ if .Staging.Changed }}  {{ .Staging.String }}{{ end }}{{ if gt .StashCount 0 }}  {{ .StashCount }}{{ end }}",
+                    "template": " \ue725 {{ .Ref }}",
                     "properties": {
-                        "fetch_status": true,
-                        "fetch_upstream_icon": true
+                        "fetch_status": true
+                    }
+                },
+                {
+                    "type": "git",
+                    "style": "powerline",
+                    "foreground": "#59eb67",
+                    "template": "{{ if .Working.Untracked }} \udb81\udf04 {{ .Working.Untracked }}{{ end }}",
+                    "properties": {
+                        "fetch_status": true
+                    }
+                },
+                {
+                    "type": "git",
+                    "style": "powerline",
+                    "foreground": "#d59f57",
+                    "template": "{{ if .Working.Modified }} \udb82\udded {{ .Working.Modified }}{{ end }}",
+                    "properties": {
+                        "fetch_status": true
+                    }
+                },
+                {
+                    "type": "git",
+                    "style": "powerline",
+                    "foreground": "#ac4a75",
+                    "template": "{{ if .Staging.Changed }} \udb82\udfeb {{ .Staging.Added }}{{ end }}",
+                    "properties": {
+                        "fetch_status": true
+                    }
+                },
+                {
+                    "type": "git",
+                    "style": "powerline",
+                    "foreground": "#ac4a75",
+                    "template": "{{ if .Staging.Changed }} \udb83\udc0f {{ .Staging.Modified }}{{ end }}",
+                    "properties": {
+                        "fetch_status": true
+                    }
+                },
+                {
+                    "type": "git",
+                    "style": "powerline",
+                    "foreground": "#98fb98",
+                    "template": "{{ if gt .Ahead 0 }} \udb81\udf39 {{ .Ahead }}{{ end }}",
+                    "properties": {
+                        "fetch_status": true
+                    }
+                },
+                {
+                    "type": "git",
+                    "style": "powerline",
+                    "foreground": "#FAFA33",
+                    "template": "{{ if gt .Behind 0 }} \udb85\udc5f {{ .Behind }}{{ end }}",
+                    "properties": {
+                        "fetch_status": true
                     }
                 },
                 {
                     "type": "session",
                     "style": "plain",
-                    "foreground": "#0AD1C8",
+                    "foreground": "#5ef1ff",
                     "template": "]"
-                },
-                {
-                    "type": "status",
-                    "style": "plain",
-                    "foreground": "#EF476F",
-                    "template": "{{ if .Error }} [ERROR]{{ end }}",
-                    "properties": {
-                        "always_enabled": false
-                    }
                 }
             ]
         },
@@ -90,14 +143,20 @@
                 {
                     "type": "session",
                     "style": "plain",
-                    "foreground": "#0AD1C8",
+                    "foreground": "#5ef1ff",
                     "template": "\u2570"
                 },
                 {
-                    "type": "text",
+                    "type": "status",
                     "style": "plain",
-                    "foreground": "#fa7ef8",
-                    "template": "$:"
+                    "foreground": "#5eff6c",
+                    "foreground_templates": [
+                        "{{ if .Error }}#EF476F{{ end }}"
+                    ],
+                    "template": "❯",
+                    "properties": {
+                        "always_enabled": true
+                    }
                 }
             ]
         }

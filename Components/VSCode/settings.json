@@ -2,20 +2,17 @@
     // Theme Settings.
     "workbench.colorTheme": "Atomify",
     "workbench.iconTheme": "material-icon-theme",
-
     // Font Settings.
     "editor.fontFamily": "Hack Nerd Font",
     "terminal.integrated.fontFamily": "Hack Nerd Font",
     "markdown.preview.fontFamily": "Hack Nerd Font",
     "editor.fontSize": 14,
     "terminal.integrated.fontSize": 14,
-
     // ErrorLens Settings.
     "errorLens.fontStyleItalic": true,
     "errorLens.gutterIconsEnabled": true,
     "errorLens.gutterIconSet": "squareRounded",
     "errorLens.gutterIconSize": "125%",
-
     // Todo-Tree Settings.
     "todo-tree.general.tags": [
         "BUG",
@@ -52,28 +49,31 @@
     },
     "todo-tree.tree.disableCompactFolders": true,
     "todo-tree.tree.showCountsInTree": true,
-
     // UI Settings.
     "editor.minimap.enabled": false,
     "editor.scrollbar.vertical": "auto",
     "editor.scrollbar.horizontal": "auto",
+    "explorer.compactFolders": false,
     "window.commandCenter": false,
-
     //CodeSpellChecker
     "cSpell.words": [
         "colour",
         "colours",
         "dotfiles"
     ],
-
     // Misc
     "editor.cursorBlinking": "expand",
     "workbench.startupEditor": "none",
     "editor.linkedEditing": true,
+    "editor.formatOnSave": true,
     "files.trimTrailingWhitespace": true,
     "[markdown]": {
         "files.trimTrailingWhitespace": false
     },
     "editor.bracketPairColorization.enabled": true,
-    "workbench.editor.enablePreview": false
+    "workbench.editor.enablePreview": false,
+    "editor.quickSuggestions": {
+        "comments": "on",
+        "strings": "on"
+    }
 }

@@ -1,0 +1,179 @@
+{
+    "$help": "https://aka.ms/terminal-documentation",
+    "$schema": "https://aka.ms/terminal-profiles-schema",
+    "actions": [
+        {
+            "command": {
+                "action": "splitPane",
+                "split": "up"
+            },
+            "id": "User.splitPane",
+            "keys": "alt+shift+w"
+        },
+        {
+            "command": {
+                "action": "moveFocus",
+                "direction": "down"
+            },
+            "id": "User.moveFocus",
+            "keys": "alt+s"
+        },
+        {
+            "command": {
+                "action": "newTab"
+            },
+            "id": "User.newTab",
+            "keys": "ctrl+t"
+        },
+        {
+            "command": {
+                "action": "moveFocus",
+                "direction": "right"
+            },
+            "id": "User.moveFocus",
+            "keys": "alt+d"
+        },
+        {
+            "command": {
+                "action": "closeTab"
+            },
+            "id": "User.closeTab",
+            "keys": "ctrl+w"
+        },
+        {
+            "command": {
+                "action": "splitPane",
+                "split": "right"
+            },
+            "id": "User.splitPane",
+            "keys": "alt+shift+d"
+        },
+        {
+            "command": {
+                "action": "copy",
+                "singleLine": false
+            },
+            "id": "User.copy",
+            "keys": "ctrl+c"
+        },
+        {
+            "command": {
+                "action": "moveFocus",
+                "direction": "up"
+            },
+            "id": "User.moveFocus",
+            "keys": "alt+w"
+        },
+        {
+            "command": {
+                "action": "splitPane",
+                "split": "left"
+            },
+            "id": "User.splitPane",
+            "keys": "alt+shift+a"
+        },
+        {
+            "command": "paste",
+            "id": "User.paste",
+            "keys": "ctrl+v"
+        },
+        {
+            "command": "find",
+            "id": "User.find",
+            "keys": "ctrl+f"
+        },
+        {
+            "command": {
+                "action": "splitPane",
+                "split": "down"
+            },
+            "id": "User.splitPane",
+            "keys": "alt+shift+s"
+        },
+        {
+            "command": "closePane",
+            "id": "User.closePane",
+            "keys": "alt+shift+delete"
+        },
+        {
+            "command": "unbound",
+            "keys": "alt+down"
+        },
+        {
+            "command": {
+                "action": "moveFocus",
+                "direction": "left"
+            },
+            "id": "User.moveFocus",
+            "keys": "alt+a"
+        }
+    ],
+    "alwaysShowNotificationIcon": false,
+    "centerOnLaunch": true,
+    "copyFormatting": "none",
+    "copyOnSelect": false,
+    "defaultProfile": "{574e775e-4f2a-5b96-ac1e-a2962a402336}",
+    "initialCols": 150,
+    "initialRows": 40,
+    "newTabMenu": [
+        {
+            "type": "remainingProfiles"
+        }
+    ],
+    "profiles": {
+        "defaults": {
+            "backgroundImage": null,
+            "cursorShape": "filledBox",
+            "font": {
+                "face": "Hack Nerd Font",
+                "size": 14
+            },
+            "opacity": 90,
+            "useAcrylic": false
+        },
+        "list": [
+            {
+                "closeOnExit": "graceful",
+                "colorScheme": "Cyber",
+                "guid": "{574e775e-4f2a-5b96-ac1e-a2962a402336}",
+                "hidden": false,
+                "name": "PowerShell",
+                "source": "Windows.Terminal.PowershellCore"
+            },
+            {
+                "closeOnExit": "graceful",
+                "colorScheme": "Campbell",
+                "guid": "{0caa0dad-35be-5f56-a8ff-afceeeaa6101}",
+                "hidden": false,
+                "name": "Command Prompt"
+            }
+        ]
+    },
+    "schemes": [
+        {
+            "background": "#121D2F",
+            "black": "#16181A",
+            "blue": "#5EA1FF",
+            "brightBlack": "#828BB8",
+            "brightBlue": "#5EA1FF",
+            "brightCyan": "#5EF1FF",
+            "brightGreen": "#5EFF6E",
+            "brightPurple": "#BD5EFF",
+            "brightRed": "#FF6E6E",
+            "brightWhite": "#FFFFFF",
+            "brightYellow": "#F1FF5E",
+            "cursorColor": "#FFFFFF",
+            "cyan": "#5EF1FF",
+            "foreground": "#FFFFFF",
+            "green": "#5EFF6E",
+            "name": "Cyber",
+            "purple": "#BD5EFF",
+            "red": "#FF6E6E",
+            "selectionBackground": "#3C4048",
+            "white": "#FFFFFF",
+            "yellow": "#F1FF5E"
+        }
+    ],
+    "tabWidthMode": "titleLength",
+    "themes": []
+}

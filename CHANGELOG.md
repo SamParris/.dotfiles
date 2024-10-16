@@ -1,5 +1,28 @@
 # Changelog for .dotfiles
 
+## v1.2.0 💥
+
++ First major update to [`Setup.ps1`](Setup.ps1)
++ Updates to [`.README.md`](README.md)
++ Minor file updates
+    + \Components\OhMyPosh
+        + Updates to [`OhMyPoshTheme.json`](Components/OhMyPosh/OhMyPoshTheme.json)
+        + Updated [`TerminalPromptImage.PNG`](Components/OhMyPosh/TerminalPromptImage.PNG)
+    + \Components\Terminal
+        + Updates to [`settings.json`](Components/Terminal/settings.json)
+        + Updates to [`README.md`](Components/Terminal/README.md)
+    + \Components\VSCode
+        + Updates to [`settings.json`](Components/VSCode/settings.json)
++ Minor issue fixes
+    + \Components\Terminal\TerminalIcons
+        + Relocate Terminal Icons [`README.md`](Components/Terminal/TerminalIcons/README.md) (Fixes GitHub Issue [#7](https://github.com/SamParris/.dotfiles/issues/7))
++ Creation and initial commit for files
+    + \Components\Terminal
+        + [`README.md`](Components/Terminal/README.md)
+    + \Components\PowerShell
+        + [`Profile.ps1`](Components/PowerShell/Profile.ps1)
+        + [`README.md`](Components/PowerShell/README.md)
+
 ## v1.1.3 ❤️
 
 + Updates to [`.gitignore`](.gitignore)
