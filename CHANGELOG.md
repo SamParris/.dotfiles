@@ -1,5 +1,12 @@
 # Changelog for .dotfiles
 
+## v1.2.2 🖊️
++ Updates to [`Setup.ps1`](Setup.ps1)
++ Minor file updates
+    + \Components\Nvim\lua\user
+        + [`options.lua`](Components/Nvim/lua/user/options.lua)
+    
+
 ## v1.2.1 ✨
 
 + Updates to [`.gitignore`](.gitignore)

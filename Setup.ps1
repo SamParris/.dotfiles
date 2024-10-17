@@ -55,7 +55,26 @@ Function New-SymLink {
         }
     }
     Process {
-        New-Item @ParamHash
+        New-Item @ParamHash -Force
+    }
+}
+
+Function Find-InstalledSoftware {
+    [CmdletBinding()]
+    Param(
+        [Parameter(Mandatory)]
+        [System.String]$Software
+    )
+    Begin {
+        $InstalledSoftware = (winget list | Out-String)
+    }
+    Process {
+        If ($InstalledSoftware -match $Software) {
+            Return $true
+        }
+        Else {
+            Return $false
+        }
     }
 }
 
@@ -96,8 +115,7 @@ Write-Host '--------------------------------------------------------'
 
 Write-Host "AutoHotKey | Detect Installation"
 Try {
-    $AHK_InstallLocation = "$ENV:LOCALAPPDATA\Programs\AutoHotkey\v2\"
-    If (Test-Path $AHK_InstallLocation) {
+    If (Find-InstalledSoftware -Software AutoHotKey) {
         Write-Host "$Checkmark_Emoji [OK]" -ForegroundColor $Success_Colour
         $Success_Count ++
     }
@@ -110,6 +128,7 @@ Try {
 Catch {
     $Error.Exception.Message
 }
+
 Write-Host "AutoHotKey | Install AutoHotKey"
 Try {
     If ($AHK_Installed -eq $false) {
@@ -163,10 +182,77 @@ Catch {
     $Error.Exception.Message
 }
 
+Write-Host "Neovim | Detect Installation"
+Try {
+    If (Find-InstalledSoftware -Software Neovim) {
+        Write-Host "$Checkmark_Emoji [OK]" -ForegroundColor $Success_Colour
+        $Success_Count ++
+    }
+    Else {
+        $Neovim_Installed = $false
+        Write-Host "[WARNING] Neovim Installed: False" -ForegroundColor $Warning_Colour
+        $Warning_Count ++
+    }
+}
+Catch {
+    $Error.Exception.Message
+}
+
+Write-Host "Neovim | Install Neovim"
+Try {
+    If ($Neovim_Installed -eq $false) {
+        winget install Neovim.Neovim -s winget --silent | Out-Null
+        Write-Host "[CHANGED]" -ForegroundColor $Changed_Colour
+        $Changed_Count ++
+    }
+    Else {
+        Write-Host "[SKIPPED]" -ForegroundColor $Skipped_Colour
+        $Skipped_Count ++
+    }
+}
+Catch {
+    $Error.Exception.Message
+}
+
+Write-Host "Neovim | Detect Symlink"
+Try {
+    Push-Location  $ENV:LOCALAPPDATA
+
+    If (Find-SymLink -FileName nvim) {
+        Write-Host "$Checkmark_Emoji [OK]" -ForegroundColor $Success_Colour
+        Pop-Location
+        $Success_Count ++
+    }
+    Else {
+        $Neovim_Symlink = $false
+        Write-Host "[WARNING] Neovim Symlink: False" -ForegroundColor $Warning_Colour
+        Pop-Location
+        $Warning_Count ++
+    }
+}
+Catch {
+    $Error.Exception.Message
+}
+
+Write-Host "Neovim | Setup Symlink"
+Try {
+    If ($Neovim_Symlink -eq $false) {
+        New-SymLink -Path $ENV:LOCALAPPDATA\nvim -Target $PSScriptRoot\Components\nvim\ | Out-Null
+        Write-Host "[CHANGED] Neovim Symlink Setup" -ForegroundColor $Changed_Colour
+        $Changed_Count ++
+    }
+    Else {
+        Write-Host "[SKIPPED]" -ForegroundColor $Skipped_Colour
+        $Skipped_Count ++
+    }
+}
+Catch {
+    $Error.Exception.Message
+}
+
 Write-Host "OhMyPosh | Detect Installation"
 Try {
-    $OhMyPosh_InstallLocation = "$ENV:LOCALAPPDATA\programs\oh-my-posh"
-    If (Test-Path $OhMyPosh_InstallLocation) {
+    If (Find-InstalledSoftware -Software OhMyPosh) {
         Write-Host "$Checkmark_Emoji [OK]" -ForegroundColor $Success_Colour
         $Success_Count ++
     }
