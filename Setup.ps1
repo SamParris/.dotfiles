@@ -131,7 +131,7 @@ Catch {
 
 Write-Host "AutoHotKey | Install AutoHotKey"
 Try {
-    If ($AHK_Installed -eq $false) {
+    If ($AHK_Installed -eq $false -and $InternetConnection -eq $true) {
         winget install AutoHotKey.AutoHotKey -s winget --silent | Out-Null
         Write-Host "[CHANGED]" -ForegroundColor $Changed_Colour
         $Changed_Count ++
@@ -200,7 +200,7 @@ Catch {
 
 Write-Host "Neovim | Install Neovim"
 Try {
-    If ($Neovim_Installed -eq $false) {
+    If ($Neovim_Installed -eq $false -and $InternetConnection -eq $true) {
         winget install Neovim.Neovim -s winget --silent | Out-Null
         Write-Host "[CHANGED]" -ForegroundColor $Changed_Colour
         $Changed_Count ++
@@ -268,9 +268,77 @@ Catch {
 
 Write-Host "OhMyPosh | Install OhMyPosh"
 Try {
-    If ($OhMyPosh_Installed -eq $false) {
+    If ($OhMyPosh_Installed -eq $false -and $InternetConnection -eq $true) {
         winget install JanDeDobbeleer.OhMyPosh -s winget --silent | Out-Null
         Write-Host "[CHANGED]" -ForegroundColor $Changed_Colour
+        $Changed_Count ++
+    }
+    Else {
+        Write-Host "[SKIPPED]" -ForegroundColor $Skipped_Colour
+        $Skipped_Count ++
+    }
+}
+Catch {
+    $Error.Exception.Message
+}
+
+Write-Host "Windows Terminal | Detect Installation"
+Try {
+    If (Find-InstalledSoftware -Software 'Windows Terminal') {
+        Write-Host "$Checkmark_Emoji [OK]" -ForegroundColor $Success_Colour
+        $Success_Count ++
+    }
+    Else {
+        $Terminal_Installed = $false
+        Write-Host "[WARNING] Windows Terminal Installed: False" -ForegroundColor $Warning_Colour
+        $Warning_Count ++
+    }
+}
+Catch {
+    $Error.Exception.Message
+}
+
+Write-Host "Windows Terminal | Install Windows Terminal"
+Try {
+    If ($Terminal_Installed -eq $false -and $InternetConnection -eq $true) {
+        winget install Microsoft.WindowsTerminal -s winget --silent | Out-Null
+        Write-Host "[CHANGED]" -ForegroundColor $Changed_Colour
+        $Changed_Count ++
+    }
+    Else {
+        Write-Host "[SKIPPED]" -ForegroundColor $Skipped_Colour
+        $Skipped_Count ++
+    }
+}
+Catch {
+    $Error.Exception.Message
+}
+
+Write-Host "Windows Terminal | Detect Symlink"
+Try {
+    Push-Location  $ENV:LOCALAPPDATA\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState
+
+    If (Find-SymLink -FileName settings.json) {
+        Write-Host "$Checkmark_Emoji [OK]" -ForegroundColor $Success_Colour
+        Pop-Location
+        $Success_Count ++
+    }
+    Else {
+        $Terminal_Symlink = $false
+        Write-Host "[WARNING] Windows Terminal Symlink: False" -ForegroundColor $Warning_Colour
+        Pop-Location
+        $Warning_Count ++
+    }
+}
+Catch {
+    $Error.Exception.Message
+}
+
+Write-Host "Windows Terminal | Setup Symlink"
+Try {
+    If ($Terminal_Symlink -eq $false) {
+        New-SymLink -Path $ENV:LOCALAPPDATA\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState\settings.json -Target $PSScriptRoot\Components\Terminal\settings.json | Out-Null
+        Write-Host "[CHANGED] Windows Terminal Symlink Setup" -ForegroundColor $Changed_Colour
         $Changed_Count ++
     }
     Else {

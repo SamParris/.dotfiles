@@ -1,5 +1,18 @@
 # Changelog for .dotfiles
 
+## v1.2.3 🎅
++ Updates to [`Setup.ps1`](Setup.ps1)
++ Minor file updates
+    + \Components\OhMyPosh
+        + Updates to [`OhMyPoshTheme.json`](Components/OhMyPosh/OhMyPoshTheme.json) (Caused by installed version upgrade)
+    + \Components\PowerShell
+        + Updates to [`Profile.ps1`](Components/PowerShell/Profile.ps1)
+    + \Components\Terminal
+        + Updates to [`settings.json`](Components/Terminal/settings.json) (Fixes GitHub Issue [#8](https://github.com/SamParris/.dotfiles/issues/7))
+    + \Components\VSCode
+        + Updates to [`settings.json`](Components/VSCode/settings.json)
+
+
 ## v1.2.2 🖊️
 + Updates to [`Setup.ps1`](Setup.ps1)
 + Minor file updates

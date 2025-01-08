@@ -4,15 +4,13 @@
 .NOTES
 #>
 
-#Custom Variables
-$DotfilesDir = "$HOME\.dotfiles"
-
 #Aliases
 Set-Alias -Name Ping -Value Test-NetConnection
 Set-Alias -Name VS -Value code
 Set-Alias -Name Push -Value Push-Location
 Set-Alias -Name Pop -Value Pop-Location
-Set-Alias -Name WhatIs -Value Get-Help
+Set-Alias -Name WhatIs -Value Man
+Set-Alias -Name Find -Value Get-ChildItem
 
 #PSReadLineKeyHandler
 Set-PSReadLineKeyHandler -Key UpArrow -Function HistorySearchBackward
@@ -24,15 +22,6 @@ Set-PSReadLineOption -HistorySearchCursorMovesToEnd
 Set-PSReadLineOption -PredictionViewStyle ListView
 
 #Prompt & Shell Configurations
-Start-ThreadJob -ScriptBlock {
-    Set-Location -Path $DotfilesDir
-    $GitUpdates = git fetch && git status
-
-    If ($GitUpdates -match "behind") {
-        $ENV:DOTFILES_UPDATE_AVAILABLE = $true
-    }
-} | Out-Null
-
 Start-ThreadJob -ScriptBlock {
     $WingetUpdatesString = Start-Job -ScriptBlock { winget list --upgrade-available | Out-String } | Wait-Job | Receive-Job
 

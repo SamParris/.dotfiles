@@ -4,136 +4,140 @@
     "actions": [
         {
             "command": {
+                "action": "newTab"
+            },
+            "id": "User.NewTab",
+            "keys": "ctrl+t",
+            "name": "NewTab"
+        },
+        {
+            "command": {
                 "action": "splitPane",
                 "split": "up"
             },
-            "id": "User.splitPane",
-            "keys": "alt+shift+w"
-        },
-        {
-            "command": {
-                "action": "moveFocus",
-                "direction": "down"
-            },
-            "id": "User.moveFocus",
-            "keys": "alt+s"
-        },
-        {
-            "command": {
-                "action": "newTab"
-            },
-            "id": "User.newTab",
-            "keys": "ctrl+t"
-        },
-        {
-            "command": {
-                "action": "moveFocus",
-                "direction": "right"
-            },
-            "id": "User.moveFocus",
-            "keys": "alt+d"
-        },
-        {
-            "command": {
-                "action": "closeTab"
-            },
-            "id": "User.closeTab",
-            "keys": "ctrl+w"
-        },
-        {
-            "command": {
-                "action": "splitPane",
-                "split": "right"
-            },
-            "id": "User.splitPane",
-            "keys": "alt+shift+d"
-        },
-        {
-            "command": {
-                "action": "copy",
-                "singleLine": false
-            },
-            "id": "User.copy",
-            "keys": "ctrl+c"
-        },
-        {
-            "command": {
-                "action": "moveFocus",
-                "direction": "up"
-            },
-            "id": "User.moveFocus",
-            "keys": "alt+w"
-        },
-        {
-            "command": {
-                "action": "splitPane",
-                "split": "left"
-            },
-            "id": "User.splitPane",
-            "keys": "alt+shift+a"
-        },
-        {
-            "command": "paste",
-            "id": "User.paste",
-            "keys": "ctrl+v"
-        },
-        {
-            "command": "find",
-            "id": "User.find",
-            "keys": "ctrl+f"
+            "id": "User.SplitPane",
+            "keys": "alt+shift+w",
+            "name": "SplitPane_Up"
         },
         {
             "command": {
                 "action": "splitPane",
                 "split": "down"
             },
-            "id": "User.splitPane",
-            "keys": "alt+shift+s"
+            "id": "User.SplitPane",
+            "keys": "alt+shift+s",
+            "name": "SplitPane_Down"
         },
         {
-            "command": "closePane",
-            "id": "User.closePane",
-            "keys": "alt+shift+delete"
+            "command": {
+                "action": "splitPane",
+                "split": "left"
+            },
+            "id": "User.SplitPane",
+            "keys": "alt+shift+a",
+            "name": "SplitPane_Left"
         },
         {
-            "command": "unbound",
-            "keys": "alt+down"
+            "command": {
+                "action": "moveFocus",
+                "direction": "up"
+            },
+            "id": "User.MoveFocus",
+            "keys": "alt+w",
+            "name": "MoveFocus_Down"
+        },
+        {
+            "command": {
+                "action": "moveFocus",
+                "direction": "up"
+            },
+            "keys": "alt+s"
+        },
+        {
+            "command": {
+                "action": "moveFocus",
+                "direction": "right"
+            },
+            "id": "User.MoveFocus",
+            "keys": "alt+d",
+            "name": "MoveFocus_Right"
         },
         {
             "command": {
                 "action": "moveFocus",
                 "direction": "left"
             },
-            "id": "User.moveFocus",
-            "keys": "alt+a"
+            "id": "User.MoveFocus",
+            "keys": "alt+a",
+            "name": "MoveFocus_Left"
+        },
+        {
+            "command": {
+                "action": "closeTab"
+            },
+            "id": "User.CloseTab",
+            "keys": "ctrl+w",
+            "name": "CloseTab"
+        },
+        {
+            "command": {
+                "action": "splitPane",
+                "split": "right"
+            },
+            "id": "User.SplitPane",
+            "keys": "alt+shift+d",
+            "name": "SplitPane_Right"
+        },
+        {
+            "command": "openNewTabDropdown",
+            "id": "Terminal.OpenDropdownMenu",
+            "keys": "ctrl+shift+t",
+            "name": "OpenDropdownMenu"
+        },
+        {
+            "command": "closePane",
+            "id": "user.ClosePane",
+            "keys": "ctrl+delete",
+            "name": "ClosePane"
         }
     ],
     "alwaysShowNotificationIcon": false,
     "centerOnLaunch": true,
-    "copyFormatting": "none",
-    "copyOnSelect": false,
     "defaultProfile": "{574e775e-4f2a-5b96-ac1e-a2962a402336}",
     "initialCols": 150,
     "initialRows": 40,
     "newTabMenu": [
         {
-            "type": "remainingProfiles"
+            "profile": "{574e775e-4f2a-5b96-ac1e-a2962a402336}",
+            "type": "profile"
+        },
+        {
+            "profile": "{0caa0dad-35be-5f56-a8ff-afceeeaa6101}",
+            "type": "profile"
+        },
+        {
+            "type": "separator"
+        },
+        {
+            "allowEmpty": false,
+            "entries": [],
+            "icon": null,
+            "inline": "never",
+            "name": "SSH",
+            "type": "folder"
         }
     ],
     "profiles": {
         "defaults": {
-            "backgroundImage": null,
+            "closeOnExit": "graceful",
             "cursorShape": "filledBox",
             "font": {
                 "face": "Hack Nerd Font",
                 "size": 14
-            },
-            "opacity": 90,
-            "useAcrylic": false
+            }
         },
         "list": [
             {
-                "closeOnExit": "graceful",
                 "colorScheme": "Cyber",
                 "guid": "{574e775e-4f2a-5b96-ac1e-a2962a402336}",
                 "hidden": false,
@@ -141,17 +145,20 @@
                 "source": "Windows.Terminal.PowershellCore"
             },
             {
-                "closeOnExit": "graceful",
                 "colorScheme": "Campbell",
                 "guid": "{0caa0dad-35be-5f56-a8ff-afceeeaa6101}",
-                "hidden": false,
                 "name": "Command Prompt"
+            },
+            {
+                "guid": "{61c54bbd-c2c6-5271-96e7-009a87ff44bf}",
+                "hidden": false,
+                "name": "Windows PowerShell"
             }
         ]
     },
     "schemes": [
         {
-            "background": "#121D2F",
+            "background": "#1A1C24",
             "black": "#16181A",
             "blue": "#5EA1FF",
             "brightBlack": "#828BB8",

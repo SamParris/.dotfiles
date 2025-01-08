@@ -1,6 +1,6 @@
 {
     // Theme Settings.
-    "workbench.colorTheme": "Atomify",
+    "workbench.colorTheme": "Atom Dark Minimal",
     "workbench.iconTheme": "material-icon-theme",
     // Font Settings.
     "editor.fontFamily": "Hack Nerd Font",
@@ -55,11 +55,13 @@
     "editor.scrollbar.horizontal": "auto",
     "explorer.compactFolders": false,
     "window.commandCenter": false,
+    "editor.lineNumbers": "relative",
     //CodeSpellChecker
     "cSpell.words": [
         "colour",
         "colours",
-        "dotfiles"
+        "dotfiles",
+        "winget"
     ],
     // Misc
     "editor.cursorBlinking": "expand",
