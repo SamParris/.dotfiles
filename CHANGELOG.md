@@ -1,5 +1,11 @@
 # Changelog for .dotfiles
 
+## v1.2.4 👀
++ Updates to [`Setup.ps1`](Setup.ps1) (Closes GitHub Issue [#10](https://github.com/SamParris/.dotfiles/issues/10))
++ Minor file updates
+    + \Components\Terminal
+        + Updates to [`settings.json`](Components/Terminal/settings.json) (Closes GitHub Issue [#9](https://github.com/SamParris/.dotfiles/issues/9))
+
 ## v1.2.3 🎅
 + Updates to [`Setup.ps1`](Setup.ps1)
 + Minor file updates
@@ -8,7 +14,7 @@
     + \Components\PowerShell
         + Updates to [`Profile.ps1`](Components/PowerShell/Profile.ps1)
     + \Components\Terminal
-        + Updates to [`settings.json`](Components/Terminal/settings.json) (Fixes GitHub Issue [#8](https://github.com/SamParris/.dotfiles/issues/7))
+        + Updates to [`settings.json`](Components/Terminal/settings.json) (Fixes GitHub Issue [#8](https://github.com/SamParris/.dotfiles/issues/8))
     + \Components\VSCode
         + Updates to [`settings.json`](Components/VSCode/settings.json)
 

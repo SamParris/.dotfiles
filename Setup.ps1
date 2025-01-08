@@ -13,7 +13,6 @@ $Failure_Colour = 'DarkRed'
 
 # Emoji Codes
 $Checkmark_Emoji = "`u{2714} "
-$Failure_Emoji = "`u{274c}"
 
 # Status Counts
 $Success_Count = 0

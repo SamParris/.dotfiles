@@ -39,19 +39,30 @@
         },
         {
             "command": {
-                "action": "moveFocus",
-                "direction": "up"
+                "action": "splitPane",
+                "split": "right"
             },
-            "id": "User.MoveFocus",
-            "keys": "alt+w",
-            "name": "MoveFocus_Down"
+            "id": "User.SplitPane",
+            "keys": "alt+shift+d",
+            "name": "SplitPane_Right"
         },
         {
             "command": {
                 "action": "moveFocus",
                 "direction": "up"
             },
-            "keys": "alt+s"
+            "id": "User.MoveFocus",
+            "keys": "alt+w",
+            "name": "MoveFocus_Up"
+        },
+        {
+            "command": {
+                "action": "moveFocus",
+                "direction": "down"
+            },
+            "id": "User.MoveFocus",
+            "keys": "alt+s",
+            "name": "MoveFocus_Down"
         },
         {
             "command": {
@@ -78,15 +89,6 @@
             "id": "User.CloseTab",
             "keys": "ctrl+w",
             "name": "CloseTab"
-        },
-        {
-            "command": {
-                "action": "splitPane",
-                "split": "right"
-            },
-            "id": "User.SplitPane",
-            "keys": "alt+shift+d",
-            "name": "SplitPane_Right"
         },
         {
             "command": "openNewTabDropdown",
@@ -119,12 +121,14 @@
             "type": "separator"
         },
         {
-            "allowEmpty": false,
-            "entries": [],
-            "icon": null,
-            "inline": "never",
             "name": "SSH",
-            "type": "folder"
+            "type": "folder",
+            "entries": [
+                {
+                    "type": "profile",
+                    "profile": "{574e775e-4f2a-5b96-ac1e-a2962a402336}"
+                }
+            ]
         }
     ],
     "profiles": {
