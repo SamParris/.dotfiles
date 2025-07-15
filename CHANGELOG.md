@@ -1,5 +1,11 @@
 # Changelog for .dotfiles
 
+## v1.2.5 🚀
++ File updates to fix GitHub Issue [#15](https://github.com/SamParris/.dotfiles/issues/15)
+    + \Components\PowerShell
+        + Updates to [`Profile.ps1`](Components/PowerShell/Profile.ps1)
+        + Creation of [`Functions.psm1`](Components/PowerShell/Functions.psm1)
+
 ## v1.2.4 👀
 + Updates to [`Setup.ps1`](Setup.ps1) (Closes GitHub Issue [#10](https://github.com/SamParris/.dotfiles/issues/10))
 + Minor file updates
