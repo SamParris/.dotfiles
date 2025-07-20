@@ -4,12 +4,14 @@
 # Settings for .dotfiles repo.
 !.gitignore
 !CHANGELOG.md
+!Config.xml
 !README.md
 !Setup.ps1
 
 # Components
 !Components
 Components/*
+!Components.xml
 
 # AutoHotKey
 !Components/AutoHotKey

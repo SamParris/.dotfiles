@@ -3,38 +3,104 @@
 .DESCRIPTION
 .NOTES
 #>
+# --- Load XML Configuration ---
+$ConfigPath = (Join-Path $PSScriptRoot 'Config.xml')
+$ComponentsPath = (Join-Path $PSScriptRoot\Components\ 'Components.xml')
 
-# Colour Codes
-$Success_Colour = 'Green'
-$Warning_Colour = 'DarkYellow'
-$Changed_Colour = 'DarkYellow'
-$Skipped_Colour = 'Cyan'
-$Failure_Colour = 'DarkRed'
+Function Import-XmlFile {
+    [CmdletBinding()]
+    Param(
+        [Parameter(Mandatory)]
+        [System.String]$Path
+    )
+    Begin {
+        If (-Not (Test-Path $Path)) {
+            Write-Host "Configuration XML file not found at: $Path" -ForegroundColor DarkRed
+            exit 1
+        }
+    }
+    Process {
+        Try {
+            [xml]$Xml = (Get-Content -Path $Path -ErrorAction Stop)
+            Write-Host "Loaded xml configuration file: $Path" -ForegroundColor Green
+            Return $Xml
+        }
+        Catch {
+            Write-Host "Failed to parse Config.xml. Error: $_" -ForegroundColor DarkRed
+            exit 1
+        }
+    }
+}
 
-# Emoji Codes
-$Checkmark_Emoji = "`u{2714} "
+$ConfigXml = (Import-XmlFile -Path $ConfigPath)
+$ComponentsXml = (Import-XmlFile -Path $ComponentsPath)
 
-# Status Counts
-$Success_Count = 0
-$Warning_Count = 0
-$Changed_Count = 0
-$Skipped_Count = 0
-$Failure_Count = 0
+If (-Not $ConfigXml.Configuration.Display.Colours -or -not $ConfigXml.Configuration.Display.Emoji) {
+    Write-Host "Config.xml is missing required <Display> section." -ForegroundColor DarkRed
+    exit 1
+}
 
-#Functions required for Setup.ps1
+If (-Not $ComponentsXml.Configuration.Components.Component) {
+    Write-Host "Components.xml is missing <Components><Component> entries." -ForegroundColor DarkRed
+    exit 1
+}
+
+Function Expand-EnvVars {
+    [CmdletBinding()]
+    Param(
+        [Parameter(Mandatory)]
+        [System.String]$Inputs
+    )
+    Try {
+        $Expanded = $Inputs `
+            -replace '%APPDATA%', $env:APPDATA `
+            -replace '%LOCALAPPDATA%', $env:LOCALAPPDATA `
+            -replace '%SCRIPTROOT%', $PSScriptRoot `
+            -replace '%TEMP%', $env:TEMP
+
+        Return $Expanded
+    }
+    Catch {
+        Write-Verbose "Expand-EnvVars: Failed to expand input '$Inputs'. Error: $_"
+        Return $Inputs  # Fallback: return unmodified input
+    }
+}
+
 Function Find-SymLink {
     [CmdletBinding()]
     Param(
         [Parameter(Mandatory)]
         [System.String]$FileName,
 
-        [Parameter()]
+        [Parameter(Mandatory)]
         [System.String]$Path
     )
-    Process {
-        Get-ChildItem -Path $Path | Where-Object { $_.Name -eq "$FileName" -and $_.LinkType -eq 'SymbolicLink' }
+    Begin {
+        If (-Not (Test-Path -Path $Path)) {
+            Write-Verbose "Find-SymLink: Path not found: $Path"
+            Return $null
+        }
     }
+    Process {
+        $Match = (Get-ChildItem -Path $Path -Force -ErrorAction Stop |
+            Where-Object { $_.Name -eq $FileName -and $_.LinkType -eq 'SymbolicLink' })
 
+        Try {
+            If ($Match) {
+                Write-Verbose "Find-SymLink: Found symlink '$FileName in $Path'"
+                Return $Match
+            }
+            Else {
+                Write-Verbose "Find-SymLink: No matching symlink found for '$FileName'"
+                Return $null
+            }
+        }
+        Catch {
+            Write-Verbose "Find-SymLink: Error $_"
+            Return $null
+        }
+
+    }
 }
 
 Function New-SymLink {
@@ -47,14 +113,35 @@ Function New-SymLink {
         [System.String]$Target
     )
     Begin {
-        $ParamHash = @{
-            Path   = $Path
-            Target = $Target
-            Type   = 'SymbolicLink'
-        }
+        $LinkDir = (Split-Path $Path)
+        $LinkFile = (Split-Path $Path -Leaf)
     }
     Process {
-        New-Item @ParamHash -Force
+        Try {
+            $ExistingLink = (Find-SymLink -FileName $LinkFile -Path $LinkDir)
+            If ($ExistingLink) {
+                If ($ExistingLink.Target -eq $Target) {
+                    Write-Verbose "New-SymLink: Symlink already exists and points to the correct target."
+                    Return $ExistingLink
+                }
+                Else {
+                    Write-Verbose "New-SymLink: Symlink exists but points to a different target. Removing."
+                    Remove-Item -Path $Path -Force -ErrorAction Stop
+                }
+            }
+            ElseIf (Test-Path -Path $Path) {
+                Write-Verbose "New-SymLink: Existing item at path is not a symlink. Removing."
+                Remove-Item -Path $Path -Force -ErrorAction Stop
+            }
+
+            Write-Verbose "New-SymLink: Creating symlink from `"$Path`" to `"$Target`""
+            $newLink = New-Item -ItemType SymbolicLink -Path $Path -Target $Target -Force -ErrorAction Stop
+            Return $newLink
+        }
+        catch {
+            Write-Warning "New-SymLink: Failed to create symbolic link. Error: $_"
+            return $null
+        }
     }
 }
 
@@ -64,300 +151,140 @@ Function Find-InstalledSoftware {
         [Parameter(Mandatory)]
         [System.String]$Software
     )
-    Begin {
-        $InstalledSoftware = (winget list | Out-String)
-    }
-    Process {
-        If ($InstalledSoftware -match $Software) {
+    Try {
+        Write-Verbose "Checking if '$Software' is installed via winget..."
+        $InstalledList = (winget list | Out-String)
+        If ($InstalledList -match "(?i)$Software") {
+            Write-Verbose "'$Software' appears to be installed."
             Return $true
         }
         Else {
+            Write-Verbose "'$Software' was not found in installed packages."
             Return $false
         }
     }
+    Catch {
+        Write-Verbose "Error while checking software: $_"
+        Return $false
+    }
 }
 
-Write-Host "Running Dotfiles Setup ..."
-Write-Host '--------------------------------------------------------'
-Write-Host ' Checking Admin Rights ... ' -ForegroundColor Cyan -NoNewline
-Try {
-    $CurrentUser = [Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()
-    If ($CurrentUser.IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)) {
-        Write-Host "OK" -ForegroundColor $Success_Colour
+# --- Startup Checks ---
+Write-Host " Checking Admin Rights " -ForegroundColor Cyan -NoNewline
+
+$CurrentUser = [Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()
+If (-Not $CurrentUser.IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)) {
+    Write-Host "FAIL" -ForegroundColor $ConfigXml.Configuration.Display.Colours.Failure
+    Write-Host "Please run as Administrator." -ForegroundColor $ConfigXml.Configuration.Display.Colours.Failure
+    Exit 1
+}
+Else {
+    Write-Host "OK" -ForegroundColor $ConfigXml.Configuration.Display.Colours.Success
+}
+
+Write-Host " Checking Internet Connection " -ForegroundColor Cyan -NoNewline
+If (-Not (Test-Connection 'github.com' -Quiet -Count 1)) {
+    Write-Host "WARNING (Software installs will be skipped)" -ForegroundColor $ConfigXml.Configuration.Display.Colours.Warning
+    $InternetConnection = $false
+}
+Else {
+    Write-Host "OK" -ForegroundColor $ConfigXml.Configuration.Display.Colours.Success
+    $InternetConnection = $true
+}
+
+# --- Components Setup ---
+ForEach ($Component in $ComponentsXml.Configuration.Components.Component) {
+    $Name = $Component.Name
+    $WingetId = $Component.WingetId
+    $HasSymlink = [Bool]$Component.HasSymlink
+
+    Write-Host $Name
+    $Installed = $false
+
+    Try {
+        $Installed = (Find-InstalledSoftware -Software $Name)
+        If ($Installed) {
+            Write-Host "Install Detected [OK]" -ForegroundColor $ConfigXml.Configuration.Display.Colours.Success
+            $SuccessCounter ++
+        }
+        Else {
+            Write-Host "Install Detected [WARNING]" -ForegroundColor $ConfigXml.Configuration.Display.Colours.Warning
+            $WarningCounter ++
+        }
+    }
+    Catch {
+        Write-Host "ERROR: $_" -ForegroundColor $ConfigXml.Configuration.Display.Colours.Failure
+        $FailureCounter ++
+    }
+
+    Try {
+        If (-Not $Installed -and $InternetConnection -eq $true) {
+            winget install $WingetId -s winget --silent | Out-Null
+            Write-Host "Software Installed [CHANGED]" -ForegroundColor $ConfigXml.Configuration.Display.Colours.Changed
+            $ChangedCounter ++
+        }
+        Else {
+            Write-Host "Software Installed [SKIPPED]" -ForegroundColor $ConfigXml.Configuration.Display.Colours.Skipped
+            $SkippedCounter ++
+        }
+    }
+    Catch {
+        Write-Host "ERROR: $_" -ForegroundColor $ConfigXml.Configuration.Display.Colours.Failure
+        $FailureCounter ++
+    }
+
+    # Start of symlink checks and setup
+    If ($HasSymlink) {
+        $SymlinkNode = $ComponentsXml.Configuration.Symlinks.Symlink | Where-Object { $_.Component -eq $Name }
+
+        If ($SymlinkNode) {
+            $LinkPath = Expand-EnvVars $SymlinkNode.Path
+            $TargetPath = Expand-EnvVars $SymlinkNode.Target
+            $LinkDir = Split-Path $LinkPath
+            $LinkFile = Split-Path $LinkPath -Leaf
+
+            Try {
+                $SymlinkExists = (Find-SymLink -FileName $LinkFile -Path $LinkDir)
+
+                If ($SymlinkExists) {
+                    Write-Host "Existing Symlink [OK]" -ForegroundColor $ConfigXml.Configuration.Display.Colours.Success
+                    $SuccessCounter ++
+                }
+                Else {
+                    Write-Host "Existing Symlink [WARNING]" -ForegroundColor $ConfigXml.Configuration.Display.Colours.Warning
+                    $WarningCounter ++
+                }
+            }
+            Catch {
+                Write-Host "ERROR: $_" -ForegroundColor $ConfigXml.Configuration.Display.Colours.Failure
+                $FailureCounter ++
+            }
+
+            If (-Not $SymlinkExists) {
+                Try {
+                    New-SymLink -Path $LinkPath -Target $TargetPath | Out-Null
+                    Write-Host "Existing Symlink [CHANGED]" -ForegroundColor $ConfigXml.Configuration.Display.Colours.Changed
+                    $ChangedCounter ++
+                }
+                Catch {
+                    Write-Host "ERROR: $_" -ForegroundColor $ConfigXml.Configuration.Display.Colours.Failure
+                    $FailureCounter ++
+                }
+            }
+        }
     }
     Else {
-        Write-Host "FAIL" -ForegroundColor $Failure_Colour
-        Write-Host "Please rerun Setup.ps1 as an Administrator." -ForegroundColor $Failure_Colour
-        Break
+        Write-Host "Symlink Not Required [SKIPPED]" -ForegroundColor $ConfigXml.Configuration.Display.Colours.Skipped
+        $SkippedCounter ++
     }
-}
-Catch {
-    $Error.Exception.Message
 }
 
-Write-Host ' Checking Internet Connection ... ' -ForegroundColor Cyan -NoNewline
-Try {
-    If ((Test-Connection 'GitHub.com' -Quiet -Count 1) -eq $true) {
-        Write-Host "OK" -ForegroundColor $Success_Colour
-        $InternetConnection = $true
-    }
-    Else {
-        Write-Host "WARNING (Some configurations will be skipped)." -ForegroundColor $Warning_Colour
-        $InternetConnection = $false
-    }
-}
-Catch {
-    $Error.Exception.Message
-}
-
-Write-Host '--------------------------------------------------------'
-
-Write-Host "AutoHotKey | Detect Installation"
-Try {
-    If (Find-InstalledSoftware -Software AutoHotKey) {
-        Write-Host "$Checkmark_Emoji [OK]" -ForegroundColor $Success_Colour
-        $Success_Count ++
-    }
-    Else {
-        $AHK_Installed = $false
-        Write-Host "[WARNING] AutoHotKey Installed: False" -ForegroundColor $Warning_Colour
-        $Warning_Count ++
-    }
-}
-Catch {
-    $Error.Exception.Message
-}
-
-Write-Host "AutoHotKey | Install AutoHotKey"
-Try {
-    If ($AHK_Installed -eq $false -and $InternetConnection -eq $true) {
-        winget install AutoHotKey.AutoHotKey -s winget --silent | Out-Null
-        Write-Host "[CHANGED]" -ForegroundColor $Changed_Colour
-        $Changed_Count ++
-    }
-    Else {
-        Write-Host "[SKIPPED]" -ForegroundColor $Skipped_Colour
-        $Skipped_Count ++
-    }
-}
-Catch {
-    $Error.Exception.Message
-}
-
-Write-Host "AutoHotKey | Detect Symlink"
-Try {
-    $StartUpFolder = "$env:APPDATA\Microsoft\Windows\Start Menu\Programs\Startup"
-    Push-Location  $StartUpFolder
-
-    If (Find-SymLink -FileName UltimateKeyboard.ahk) {
-        Write-Host "$Checkmark_Emoji [OK]" -ForegroundColor $Success_Colour
-        Pop-Location
-        $Success_Count ++
-    }
-    Else {
-        $AHK_Symlink = $false
-        Write-Host "[WARNING] AutoHotKey Symlink: False" -ForegroundColor $Warning_Colour
-        Pop-Location
-        $Warning_Count ++
-    }
-}
-Catch {
-    $Error.Exception.Message
-}
-
-Write-Host "AutoHotKey | Setup Symlink"
-Try {
-    If ($AHK_Symlink -eq $false) {
-        New-SymLink -Path $StartUpFolder\UltimateKeyboard.ahk -Target $PSScriptRoot\Components\AutoHotKey\UltimateKeyboard.ahk | Out-Null
-        Write-Host "[CHANGED] AutoHotKey Symlink Setup" -ForegroundColor $Changed_Colour
-        $Changed_Count ++
-    }
-    Else {
-        Write-Host "[SKIPPED]" -ForegroundColor $Skipped_Colour
-        $Skipped_Count ++
-    }
-}
-Catch {
-    $Error.Exception.Message
-}
-
-Write-Host "Neovim | Detect Installation"
-Try {
-    If (Find-InstalledSoftware -Software Neovim) {
-        Write-Host "$Checkmark_Emoji [OK]" -ForegroundColor $Success_Colour
-        $Success_Count ++
-    }
-    Else {
-        $Neovim_Installed = $false
-        Write-Host "[WARNING] Neovim Installed: False" -ForegroundColor $Warning_Colour
-        $Warning_Count ++
-    }
-}
-Catch {
-    $Error.Exception.Message
-}
-
-Write-Host "Neovim | Install Neovim"
-Try {
-    If ($Neovim_Installed -eq $false -and $InternetConnection -eq $true) {
-        winget install Neovim.Neovim -s winget --silent | Out-Null
-        Write-Host "[CHANGED]" -ForegroundColor $Changed_Colour
-        $Changed_Count ++
-    }
-    Else {
-        Write-Host "[SKIPPED]" -ForegroundColor $Skipped_Colour
-        $Skipped_Count ++
-    }
-}
-Catch {
-    $Error.Exception.Message
-}
-
-Write-Host "Neovim | Detect Symlink"
-Try {
-    Push-Location  $ENV:LOCALAPPDATA
-
-    If (Find-SymLink -FileName nvim) {
-        Write-Host "$Checkmark_Emoji [OK]" -ForegroundColor $Success_Colour
-        Pop-Location
-        $Success_Count ++
-    }
-    Else {
-        $Neovim_Symlink = $false
-        Write-Host "[WARNING] Neovim Symlink: False" -ForegroundColor $Warning_Colour
-        Pop-Location
-        $Warning_Count ++
-    }
-}
-Catch {
-    $Error.Exception.Message
-}
-
-Write-Host "Neovim | Setup Symlink"
-Try {
-    If ($Neovim_Symlink -eq $false) {
-        New-SymLink -Path $ENV:LOCALAPPDATA\nvim -Target $PSScriptRoot\Components\nvim\ | Out-Null
-        Write-Host "[CHANGED] Neovim Symlink Setup" -ForegroundColor $Changed_Colour
-        $Changed_Count ++
-    }
-    Else {
-        Write-Host "[SKIPPED]" -ForegroundColor $Skipped_Colour
-        $Skipped_Count ++
-    }
-}
-Catch {
-    $Error.Exception.Message
-}
-
-Write-Host "OhMyPosh | Detect Installation"
-Try {
-    If (Find-InstalledSoftware -Software OhMyPosh) {
-        Write-Host "$Checkmark_Emoji [OK]" -ForegroundColor $Success_Colour
-        $Success_Count ++
-    }
-    Else {
-        $OhMyPosh_Installed = $false
-        Write-Host "[WARNING] OhMyPosh Installed: False" -ForegroundColor $Warning_Colour
-        $Warning_Count ++
-    }
-}
-Catch {
-    $Error.Exception.Message
-}
-
-Write-Host "OhMyPosh | Install OhMyPosh"
-Try {
-    If ($OhMyPosh_Installed -eq $false -and $InternetConnection -eq $true) {
-        winget install JanDeDobbeleer.OhMyPosh -s winget --silent | Out-Null
-        Write-Host "[CHANGED]" -ForegroundColor $Changed_Colour
-        $Changed_Count ++
-    }
-    Else {
-        Write-Host "[SKIPPED]" -ForegroundColor $Skipped_Colour
-        $Skipped_Count ++
-    }
-}
-Catch {
-    $Error.Exception.Message
-}
-
-Write-Host "Windows Terminal | Detect Installation"
-Try {
-    If (Find-InstalledSoftware -Software 'Windows Terminal') {
-        Write-Host "$Checkmark_Emoji [OK]" -ForegroundColor $Success_Colour
-        $Success_Count ++
-    }
-    Else {
-        $Terminal_Installed = $false
-        Write-Host "[WARNING] Windows Terminal Installed: False" -ForegroundColor $Warning_Colour
-        $Warning_Count ++
-    }
-}
-Catch {
-    $Error.Exception.Message
-}
-
-Write-Host "Windows Terminal | Install Windows Terminal"
-Try {
-    If ($Terminal_Installed -eq $false -and $InternetConnection -eq $true) {
-        winget install Microsoft.WindowsTerminal -s winget --silent | Out-Null
-        Write-Host "[CHANGED]" -ForegroundColor $Changed_Colour
-        $Changed_Count ++
-    }
-    Else {
-        Write-Host "[SKIPPED]" -ForegroundColor $Skipped_Colour
-        $Skipped_Count ++
-    }
-}
-Catch {
-    $Error.Exception.Message
-}
-
-Write-Host "Windows Terminal | Detect Symlink"
-Try {
-    Push-Location  $ENV:LOCALAPPDATA\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState
-
-    If (Find-SymLink -FileName settings.json) {
-        Write-Host "$Checkmark_Emoji [OK]" -ForegroundColor $Success_Colour
-        Pop-Location
-        $Success_Count ++
-    }
-    Else {
-        $Terminal_Symlink = $false
-        Write-Host "[WARNING] Windows Terminal Symlink: False" -ForegroundColor $Warning_Colour
-        Pop-Location
-        $Warning_Count ++
-    }
-}
-Catch {
-    $Error.Exception.Message
-}
-
-Write-Host "Windows Terminal | Setup Symlink"
-Try {
-    If ($Terminal_Symlink -eq $false) {
-        New-SymLink -Path $ENV:LOCALAPPDATA\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState\settings.json -Target $PSScriptRoot\Components\Terminal\settings.json | Out-Null
-        Write-Host "[CHANGED] Windows Terminal Symlink Setup" -ForegroundColor $Changed_Colour
-        $Changed_Count ++
-    }
-    Else {
-        Write-Host "[SKIPPED]" -ForegroundColor $Skipped_Colour
-        $Skipped_Count ++
-    }
-}
-Catch {
-    $Error.Exception.Message
-}
-
-Write-Host '--------------------------------------------------------'
-Write-Host '--------------------------------------------------------'
+Write-Host "--------------------------------------------------------"
 [PSCustomObject]@{
-
-    Success = $Success_Count
-    Warning = $Warning_Count
-    Changed = $Changed_Count
-    Skipped = $Skipped_Count
-    Failed  = $Failure_Count
-    Total   = $Success_Count + $Warning_Count + $Changed_Count + $Skipped_Count + $Error_Count
-
-} | Format-Table
+    Success = $SuccessCounter
+    Warning = $WarningCounter
+    Changed = $ChangedCounter
+    Skipped = $SkippedCounter
+    Failed  = $FailureCounter
+    Total   = $SuccessCounter + $WarningCounter + $ChangedCounter + $SkippedCounter + $FailureCounter
+} | Format-Table -AutoSize

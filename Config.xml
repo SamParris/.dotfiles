@@ -1,0 +1,21 @@
+<Configuration>
+  <Display>
+    <Colours>
+      <Success>Green</Success>
+      <Warning>DarkYellow</Warning>
+      <Changed>DarkYellow</Changed>
+      <Skipped>Cyan</Skipped>
+      <Failure>DarkRed</Failure>
+    </Colours>
+    <Emoji>
+      <Checkmark>`u{2714} </Checkmark>
+    </Emoji>
+  </Display>
+  <Counters>
+    <Success>0</Success>
+    <Warning>0</Warning>
+    <Changed>0</Changed>
+    <Skipped>0</Skipped>
+    <Failed>0</Failed>
+  </Counters>
+</Configuration>

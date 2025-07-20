@@ -1,5 +1,12 @@
 # Changelog for .dotfiles
 
+## v1.2.6 📝
++ Overhaul of [`Setup.ps1`](Setup.ps1)
++ Creation of new xml files to be used within [`Setup.ps1`](Setup.ps1)
+    + [`Config.xml`](Config.xml)
+    + \Components
+        + [`Components.xml`](Components/Components.xml)
+
 ## v1.2.5 🚀
 + File updates to fix GitHub Issue [#15](https://github.com/SamParris/.dotfiles/issues/15)
     + \Components\PowerShell
