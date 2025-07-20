@@ -1,0 +1,16 @@
+<Configuration>
+    <Components>
+        <Component Name="AutoHotKey" WingetId="AutoHotKey.AutoHotKey" HasSymlink="true" />
+        <Component Name="Neovim" WingetId="Neovim.Neovim" HasSymlink="true" />
+        <Component Name="Notepad++" WingetId="Notepad++.Notepad++" />
+        <Component Name="OhMyPosh" WingetId="JanDeDobbeleer.OhMyPosh" />
+        <Component Name="Windows Terminal" WingetId="Microsoft.WindowsTerminal" HasSymlink="true" />
+        <Component Name="VSCode" WingetId="Microsoft.VisualStudioCode" HasSymlink="true" />
+    </Components>
+
+    <Symlinks>
+        <Symlink Component="AutoHotKey" Path="%APPDATA%\Microsoft\Windows\Start Menu\Programs\Startup\UltimateKeyboard.ahk" Target="%SCRIPTROOT%\Components\AutoHotKey\UltimateKeyboard.ahk" />
+        <Symlink Component="Neovim" Path="%LOCALAPPDATA%\nvim" Target="%SCRIPTROOT%\Components\nvim\" />
+        <Symlink Component="Windows Terminal" Path="%LOCALAPPDATA%\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState\settings.json" Target="%SCRIPTROOT%\Components\Terminal\settings.json" />
+    </Symlinks>
+</Configuration>
