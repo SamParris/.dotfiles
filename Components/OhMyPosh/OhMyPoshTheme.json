@@ -75,7 +75,10 @@
           "properties": {
             "cache_duration": "none",
             "folder_separator_icon": "/",
-            "style": "agnoster_short"
+            "style": "agnoster_short",
+            "mapped_locations": {
+              "~/projects/": "Projects"
+            }
           },
           "template": "{{ .Path }}",
           "foreground": "#d0d0d0",
