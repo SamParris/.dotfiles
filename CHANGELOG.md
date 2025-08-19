@@ -1,5 +1,9 @@
 # Changelog for .dotfiles
 
+## v1.2.7
++ \Components\OhMyPosh
+    + Updated to [`OhMyPoshTheme.json`](Components/OhMyPosh/OhMyPoshTheme.json)
+
 ## v1.2.6 📝
 + Overhaul of [`Setup.ps1`](Setup.ps1)
 + Creation of new xml files to be used within [`Setup.ps1`](Setup.ps1)
