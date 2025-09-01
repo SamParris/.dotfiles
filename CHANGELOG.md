@@ -1,5 +1,9 @@
 # Changelog for .dotfiles
 
+## v1.2.8
++ \Components\Nvim
+    + Complete overhaul of neovim configuration, including new files and plugins.
+
 ## v1.2.7
 + \Components\OhMyPosh
     + Updated to [`OhMyPoshTheme.json`](Components/OhMyPosh/OhMyPoshTheme.json)

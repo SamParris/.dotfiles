@@ -20,10 +20,13 @@ Components/*
 # Nvim
 !Components/Nvim
 !Components/Nvim/*
+Components/Nvim/lazy-lock.json
 !Components/Nvim/lua
 !Components/Nvim/lua/*
-!Components/Nvim/lua/user
-!Components/Nvim/lua/user/*
+!Components/Nvim/lua/plugins
+!Components/Nvim/lua/plugins/*
+!Components/Nvim/lua/config
+!Components/Nvim/lua/config/*
 
 # OhMyPosh
 !Components/OhMyPosh
