@@ -37,10 +37,8 @@ Components/Nvim/lazy-lock.json
 !Components/PowerShell/*
 
 # Terminal
-!Components/Terminal
+!Components/WezTerm
 !Components/Terminal/*
-!Components/Terminal/TerminalIcons
-!Components/Terminal/TerminalIcons/*
 
 # VSCode
 !Components/VSCode
