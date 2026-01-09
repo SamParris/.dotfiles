@@ -56,7 +56,8 @@ Function Expand-EnvVars {
             -replace '%APPDATA%', $env:APPDATA `
             -replace '%LOCALAPPDATA%', $env:LOCALAPPDATA `
             -replace '%SCRIPTROOT%', $PSScriptRoot `
-            -replace '%TEMP%', $env:TEMP
+            -replace '%TEMP%', $env:TEMP `
+            -replace '%USERPROFILE%', $env:USERPROFILE
 
         Return $Expanded
     }
