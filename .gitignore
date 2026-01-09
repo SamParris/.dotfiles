@@ -38,7 +38,7 @@ Components/Nvim/lazy-lock.json
 
 # Terminal
 !Components/WezTerm
-!Components/Terminal/*
+!Components/WezTerm/*
 
 # VSCode
 !Components/VSCode
