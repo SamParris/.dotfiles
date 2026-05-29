@@ -9,9 +9,6 @@
 
 $PowerShellRoot = $PSScriptRoot
 
-# Aliases
-. (Join-Path $PowerShellRoot 'Aliases.ps1')
-
 # Config
 Get-ChildItem -Path (Join-Path $PowerShellRoot 'config') -Filter '*.ps1' -File |
     Sort-Object Name |
