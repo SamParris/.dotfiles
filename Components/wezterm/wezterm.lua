@@ -1,0 +1,57 @@
+local wezterm = require("wezterm")
+
+local config = wezterm.config_builder()
+
+-- Shell
+config.default_prog = { "pwsh.exe", "-NoLogo" }
+
+-- Appearance
+config.font = wezterm.font("JetBrainsMono NF")
+config.font_size = 13
+config.color_scheme = "Tokyo Night Storm"
+
+-- Window
+config.window_decorations = "TITLE|RESIZE"
+config.hide_tab_bar_if_only_one_tab = false
+config.use_fancy_tab_bar = true
+config.enable_scroll_bar = false
+
+config.window_padding = {
+    left = 10,
+    right = 10,
+    top = 10,
+    bottom = 10,
+}
+
+config.tab_max_width = 32
+config.adjust_window_size_when_changing_font_size = false
+
+-- Behaviour
+config.audible_bell = "Disabled"
+
+-- Launch Menu
+config.launch_menu = {
+    {
+        label = "PowerShell",
+        args = { "pwsh.exe", "-NoLogo" },
+    },
+    {
+        label = "Windows PowerShell",
+        args = { "powershell.exe", "-NoLogo" },
+    },
+    {
+        label = "Command Prompt",
+        args = { "cmd.exe" },
+    },
+}
+
+-- Keybindings
+config.keys = {
+    {
+        key = "r",
+        mods = "CTRL|SHIFT",
+        action = wezterm.action.ReloadConfiguration,
+    },
+}
+
+return config

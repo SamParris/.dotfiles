@@ -27,3 +27,19 @@ function Update-Profile {
 
     . $PROFILE
 }
+
+function Open-WezTermConfig {
+<#
+.SYNOPSIS
+    Opens the WezTerm configuration.
+.DESCRIPTION
+    Opens the WezTerm configuration within VSCode
+#>
+    [CmdletBinding()]
+    [Alias('wtconfig')]
+
+    param(
+    )
+
+    code "$HOME\.dotfiles\components\wezterm\wezterm.lua"
+}
