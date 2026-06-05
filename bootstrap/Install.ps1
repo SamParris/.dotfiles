@@ -9,17 +9,23 @@
 param(
     [switch] $PSProfile,
     [switch] $WezTerm,
+    [switch] $Modules,
     [switch] $Backup
 )
 
 $BootstrapRoot = $PSScriptRoot
 
-if (-not ($PSProfile -or $WezTerm)) {
+if (-not ($PSProfile -or $WezTerm -or $Modules)) {
     $PSProfile = $true
     $WezTerm = $true
+    $Modules = $true
 }
 
-if ($Profile) {
+if ($Modules) {
+    & (Join-Path $BootstrapRoot 'Install-Modules.ps1') -Verbose:$VerbosePreference
+}
+
+if ($PSProfile) {
     & (Join-Path $BootstrapRoot 'Install-Profile.ps1') -Backup:$Backup -Verbose:$VerbosePreference
 }
 
