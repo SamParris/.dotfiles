@@ -20,8 +20,10 @@ param(
     [switch] $Backup
 )
 
+. "$PSScriptRoot\Helpers\Backup.ps1"
+
 $RepoRoot = Split-Path -Parent $PSScriptRoot
-$SourceProfile = Join-Path $RepoRoot 'components/powershell/Profile.ps1'
+$SourceProfile = Join-Path $RepoRoot 'components\powershell\Profile.ps1'
 $TargetProfile = $PROFILE
 
 if (-not (Test-Path $SourceProfile)) {
@@ -36,18 +38,15 @@ if (-not (Test-Path $TargetProfileFolder)) {
 }
 
 if ((Test-Path $TargetProfile) -and $Backup) {
-    $BackupPath = "$TargetProfile.backup-$(Get-Date -Format 'yyyyMMdd-HHmmss')"
-    Write-Verbose "Backing up existing profile to: $BackupPath"
-    Copy-Item -Path $TargetProfile -Destination $BackupPath -Force
+    New-DotfilesBackup -Path $TargetProfile | Out-Null
 }
-
-$ProfileLine = ". '$SourceProfile'"
 
 if (-not (Test-Path $TargetProfile)) {
     Write-Verbose "Creating profile file: $TargetProfile"
     New-Item -Path $TargetProfile -ItemType File -Force | Out-Null
 }
 
+$ProfileLine = ". '$SourceProfile'"
 $ExistingContent = Get-Content -Path $TargetProfile -Raw -ErrorAction SilentlyContinue
 
 if ([string]::IsNullOrWhiteSpace($ExistingContent)) {
@@ -65,4 +64,4 @@ else {
     Write-Verbose "Dotfiles profile loader already exists in: $TargetProfile"
 }
 
-Write-Verbose "Profile install complete."
+Write-Verbose "PowerShell profile installed"
