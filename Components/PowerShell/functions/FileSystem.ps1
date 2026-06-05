@@ -55,3 +55,37 @@ function New-Directory {
 
     New-Item -Path $Path -ItemType Directory -Force
 }
+
+function New-DirectoryAndEnter {
+<#
+.SYNOPSIS
+    Creates a new directory and changes to it.
+.DESCRIPTION
+    Creates a new directory at the specified path and sets the current location to the newly created directory.
+.PARAMETER Path
+    The path of the directory to create.
+.EXAMPLE
+    New-DirectoryAndEnter -Path 'test'
+    Creates a directory named test and changes to it.
+.EXAMPLE
+    mkcd 'test'
+    Creates a directory named test and changes to it.
+.EXAMPLE
+    mkcd '.\components\oh-my-posh'
+    Creates an oh-my-posh directory under the components directory and
+    changes to it.
+#>
+    [CmdletBinding()]
+    [Alias('mkcd')]
+
+    param(
+        [Parameter(Mandatory)]
+        [string] $Path
+    )
+
+    $Directory = New-Item -Path $Path -ItemType Directory -Force
+
+    Set-Location -Path $Directory.FullName
+
+    return $Directory
+}
