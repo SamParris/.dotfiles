@@ -1,0 +1,173 @@
+{
+  "$schema": "https://raw.githubusercontent.com/JanDeDobbeleer/oh-my-posh/main/themes/schema.json",
+  "var": {
+    "dotfiles": "$ENV:dotfiles_update_available"
+  },
+  "blocks": [
+    {
+      "type": "prompt",
+      "alignment": "left",
+      "segments": [
+        {
+          "template": "\u256d( ",
+          "foreground": "#5ef1ff",
+          "type": "session",
+          "style": "plain"
+        },
+        {
+            "template": "{{ if eq .OS \"windows\" }}󰍲{{ else if eq .OS \"linux\" }} 󰌽{{ else }} 󰣇{{ end }}",
+            "foreground": "#5ef1ff",
+            "foreground_templates": [
+                "{{ if eq .OS \"windows\" }}#0078D4{{ end }}",
+                "{{ if eq .OS \"linux\" }}#F7A41D{{ end }}"
+            ],
+            "type": "os",
+            "style": "plain"
+        },
+        {
+          "options": {
+            "time_format": "03:04 PM"
+          },
+          "foreground": "#808080",
+          "type": "time",
+          "style": "plain"
+        },
+        {
+          "template": "{{.UserName}}",
+          "foreground": "#bd5eff",
+          "type": "session",
+          "style": "plain"
+        },
+        {
+          "options": {
+          },
+          "template": " )-[",
+          "foreground": "#5ef1ff",
+          "type": "session",
+          "style": "plain"
+        },
+        {
+          "options": {
+          },
+          "template": "{{ if gt .StackCount 0 }}{{ .StackCount }}{{ end }} ",
+          "foreground": "#80ED99",
+          "type": "path",
+          "style": "plain"
+        },
+        {
+          "options": {
+            "folder_separator_icon": "/",
+            "style": "agnoster_short",
+            "mapped_locations": {
+              "~/projects/": "Projects"
+            }
+          },
+          "template": "{{ .Path }}",
+          "foreground": "#d0d0d0",
+          "type": "path",
+          "style": "plain"
+        },
+        {
+          "options": {
+            "fetch_status": true
+          },
+          "template": " \ue725 {{ .Ref }}",
+          "foreground": "#FFBF00",
+          "type": "git",
+          "style": "powerline"
+        },
+        {
+          "options": {
+            "fetch_status": true
+          },
+          "template": "{{ if .Working.Untracked }} \udb81\udf04 {{ .Working.Untracked }}{{ end }}",
+          "foreground": "#59eb67",
+          "type": "git",
+          "style": "powerline"
+        },
+        {
+          "options": {
+            "fetch_status": true
+          },
+          "template": "{{ if .Working.Modified }} \udb82\udded {{ .Working.Modified }}{{ end }}",
+          "foreground": "#d59f57",
+          "type": "git",
+          "style": "powerline"
+        },
+        {
+          "options": {
+            "fetch_status": true
+          },
+          "template": "{{ if .Staging.Changed }} \udb82\udfeb {{ .Staging.Added }}{{ end }}",
+          "foreground": "#ac4a75",
+          "type": "git",
+          "style": "powerline"
+        },
+        {
+          "options": {
+            "fetch_status": true
+          },
+          "template": "{{ if .Staging.Changed }} \udb83\udc0f {{ .Staging.Modified }}{{ end }}",
+          "foreground": "#ac4a75",
+          "type": "git",
+          "style": "powerline"
+        },
+        {
+          "options": {
+            "fetch_status": true
+          },
+          "template": "{{ if gt .Ahead 0 }} \udb81\udf39 {{ .Ahead }}{{ end }}",
+          "foreground": "#98fb98",
+          "type": "git",
+          "style": "powerline"
+        },
+        {
+          "options": {
+            "fetch_status": true
+          },
+          "template": "{{ if gt .Behind 0 }} \udb85\udc5f {{ .Behind }}{{ end }}",
+          "foreground": "#FAFA33",
+          "type": "git",
+          "style": "powerline"
+        },
+        {
+          "options": {
+          },
+          "template": "]",
+          "foreground": "#5ef1ff",
+          "type": "session",
+          "style": "plain"
+        }
+      ]
+    },
+    {
+      "type": "prompt",
+      "alignment": "left",
+      "segments": [
+        {
+          "options": {
+          },
+          "template": "\u2570",
+          "foreground": "#5ef1ff",
+          "type": "session",
+          "style": "plain"
+        },
+        {
+          "options": {
+            "always_enabled": true
+          },
+          "template": "❯",
+          "foreground": "#5eff6c",
+          "type": "status",
+          "style": "plain",
+          "foreground_templates": [
+            "{{ if .Error }}#EF476F{{ end }}"
+          ]
+        }
+      ],
+      "newline": true
+    }
+  ],
+  "version": 3,
+  "final_space": true
+}
