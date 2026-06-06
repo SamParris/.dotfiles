@@ -9,17 +9,23 @@
       "alignment": "left",
       "segments": [
         {
-          "properties": {
-            "cache_duration": "none"
-          },
-          "template": "\u256d(",
+          "template": "\u256d( ",
           "foreground": "#5ef1ff",
           "type": "session",
           "style": "plain"
         },
         {
-          "properties": {
-            "cache_duration": "none",
+            "template": "{{ if eq .OS \"windows\" }}󰍲{{ else if eq .OS \"linux\" }} 󰌽{{ else }} 󰣇{{ end }}",
+            "foreground": "#5ef1ff",
+            "foreground_templates": [
+                "{{ if eq .OS \"windows\" }}#0078D4{{ end }}",
+                "{{ if eq .OS \"linux\" }}#F7A41D{{ end }}"
+            ],
+            "type": "os",
+            "style": "plain"
+        },
+        {
+          "options": {
             "time_format": "03:04 PM"
           },
           "foreground": "#808080",
@@ -27,35 +33,13 @@
           "style": "plain"
         },
         {
-          "properties": {
-            "cache_duration": "none"
-          },
-          "template": "{{ .UserName }}",
+          "template": "{{.UserName}}",
           "foreground": "#bd5eff",
           "type": "session",
           "style": "plain"
         },
         {
-          "properties": {
-            "cache_duration": "none"
-          },
-          "template": "{{ if .Env.DOTFILES_UPDATE_AVAILABLE }} \udb85\udc5f{{ end }}",
-          "foreground": "#FAFA33",
-          "type": "text",
-          "style": "plain"
-        },
-        {
-          "properties": {
-            "cache_duration": "none"
-          },
-          "template": "{{ if .Env.SOFTWARE_UPDATE_AVAILABLE }} \udb86\uddd5{{ end }}",
-          "foreground": "#FAFA33",
-          "type": "text",
-          "style": "plain"
-        },
-        {
-          "properties": {
-            "cache_duration": "none"
+          "options": {
           },
           "template": " )-[",
           "foreground": "#5ef1ff",
@@ -63,8 +47,7 @@
           "style": "plain"
         },
         {
-          "properties": {
-            "cache_duration": "none"
+          "options": {
           },
           "template": "{{ if gt .StackCount 0 }}{{ .StackCount }}{{ end }} ",
           "foreground": "#80ED99",
@@ -72,8 +55,7 @@
           "style": "plain"
         },
         {
-          "properties": {
-            "cache_duration": "none",
+          "options": {
             "folder_separator_icon": "/",
             "style": "agnoster_short",
             "mapped_locations": {
@@ -86,8 +68,7 @@
           "style": "plain"
         },
         {
-          "properties": {
-            "cache_duration": "none",
+          "options": {
             "fetch_status": true
           },
           "template": " \ue725 {{ .Ref }}",
@@ -96,8 +77,7 @@
           "style": "powerline"
         },
         {
-          "properties": {
-            "cache_duration": "none",
+          "options": {
             "fetch_status": true
           },
           "template": "{{ if .Working.Untracked }} \udb81\udf04 {{ .Working.Untracked }}{{ end }}",
@@ -106,8 +86,7 @@
           "style": "powerline"
         },
         {
-          "properties": {
-            "cache_duration": "none",
+          "options": {
             "fetch_status": true
           },
           "template": "{{ if .Working.Modified }} \udb82\udded {{ .Working.Modified }}{{ end }}",
@@ -116,8 +95,7 @@
           "style": "powerline"
         },
         {
-          "properties": {
-            "cache_duration": "none",
+          "options": {
             "fetch_status": true
           },
           "template": "{{ if .Staging.Changed }} \udb82\udfeb {{ .Staging.Added }}{{ end }}",
@@ -126,8 +104,7 @@
           "style": "powerline"
         },
         {
-          "properties": {
-            "cache_duration": "none",
+          "options": {
             "fetch_status": true
           },
           "template": "{{ if .Staging.Changed }} \udb83\udc0f {{ .Staging.Modified }}{{ end }}",
@@ -136,8 +113,7 @@
           "style": "powerline"
         },
         {
-          "properties": {
-            "cache_duration": "none",
+          "options": {
             "fetch_status": true
           },
           "template": "{{ if gt .Ahead 0 }} \udb81\udf39 {{ .Ahead }}{{ end }}",
@@ -146,8 +122,7 @@
           "style": "powerline"
         },
         {
-          "properties": {
-            "cache_duration": "none",
+          "options": {
             "fetch_status": true
           },
           "template": "{{ if gt .Behind 0 }} \udb85\udc5f {{ .Behind }}{{ end }}",
@@ -156,8 +131,7 @@
           "style": "powerline"
         },
         {
-          "properties": {
-            "cache_duration": "none"
+          "options": {
           },
           "template": "]",
           "foreground": "#5ef1ff",
@@ -171,8 +145,7 @@
       "alignment": "left",
       "segments": [
         {
-          "properties": {
-            "cache_duration": "none"
+          "options": {
           },
           "template": "\u2570",
           "foreground": "#5ef1ff",
@@ -180,9 +153,8 @@
           "style": "plain"
         },
         {
-          "properties": {
-            "always_enabled": true,
-            "cache_duration": "none"
+          "options": {
+            "always_enabled": true
           },
           "template": "❯",
           "foreground": "#5eff6c",
