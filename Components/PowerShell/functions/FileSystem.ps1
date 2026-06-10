@@ -17,7 +17,7 @@ function New-File {
     Creates a file named roadmap.md in the docs directory.
 #>
     [CmdletBinding()]
-    [Alias('nf')]
+    [Alias('nf','touch')]
 
     param(
         [Parameter(Mandatory)]
