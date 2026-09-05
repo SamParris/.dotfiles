@@ -15,7 +15,7 @@
           "style": "plain"
         },
         {
-            "template": "{{ if eq .OS \"windows\" }}󰍲{{ else if eq .OS \"linux\" }} 󰌽{{ else }} 󰣇{{ end }}",
+            "template": "{{ if eq .OS \"windows\" }}󰍲{{ else if eq .OS \"linux\" }}󰌽{{ else }}󰣇{{ end }}",
             "foreground": "#5ef1ff",
             "foreground_templates": [
                 "{{ if eq .OS \"windows\" }}#0078D4{{ end }}",
