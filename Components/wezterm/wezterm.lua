@@ -2,8 +2,16 @@ local wezterm = require("wezterm")
 
 local config = wezterm.config_builder()
 
+-- Platform
+local is_windows = wezterm.target_triple:find("windows") ~= nil
+local is_linux = wezterm.target_triple:find("linux") ~= nil
+
 -- Shell
-config.default_prog = { "pwsh.exe", "-NoLogo" }
+if is_windows then
+    config.default_prog = { "pwsh.exe", "-NoLogo" }
+elseif is_linux then
+    config.default_prog = { "/bin/bash", "-l" }
+end
 
 -- Appearance
 config.font = wezterm.font("JetBrainsMono NF")
