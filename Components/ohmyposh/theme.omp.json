@@ -51,15 +51,16 @@
       "alignment": "right",
       "filler": "·",
       "segments": [
-        {
-          "type": "executiontime",
-          "style": "plain",
-          "template": " 󱦟{{ .FormattedMs }}",
-          "foreground": "#FACC15",
-          "properties": {
-            "threshold": 1000
-          }
-        },
+{
+  "type": "executiontime",
+  "style": "plain",
+  "template": "󱦟 {{ .FormattedMs }}  ",
+  "foreground": "#FACC15",
+  "properties": {
+    "threshold": 1000,
+    "style": "austin"
+  }
+},
         {
           "type": "time",
           "style": "plain",
