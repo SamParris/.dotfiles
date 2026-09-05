@@ -87,7 +87,7 @@
         {
           "type": "status",
           "style": "plain",
-          "template": "❯ ",
+          "template": "❯",
           "foreground": "#5EFF6C",
           "foreground_templates": [
             "{{ if .Error }}#EF476F{{ end }}"
