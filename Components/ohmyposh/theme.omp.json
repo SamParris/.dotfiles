@@ -38,7 +38,7 @@
         {
           "type": "git",
           "style": "plain",
-          "template": "󰊢 {{ .Ref }}{{ if .Working.Untracked }} ?{{ .Working.Untracked }}{{ end }}{{ if .Working.Modified }} ~{{ .Working.Modified }}{{ end }}{{ if .Staging.Changed }} +{{ add .Staging.Added .Staging.Modified }}{{ end }}{{ if gt .Ahead 0 }} ↑{{ .Ahead }}{{ end }}{{ if gt .Behind 0 }} ↓{{ .Behind }}{{ end }} ",
+          "template": "  {{ .Ref }}{{ if .Working.Untracked }} ?{{ .Working.Untracked }}{{ end }}{{ if .Working.Modified }} ~{{ .Working.Modified }}{{ end }}{{ if .Staging.Changed }} +{{ add .Staging.Added .Staging.Modified }}{{ end }}{{ if gt .Ahead 0 }} ↑{{ .Ahead }}{{ end }}{{ if gt .Behind 0 }} ↓{{ .Behind }}{{ end }} ",
           "foreground": "#FFBF00",
           "properties": {
             "fetch_status": true
@@ -49,18 +49,19 @@
     {
       "type": "prompt",
       "alignment": "right",
+      "overflow": "hide",
       "filler": "·",
       "segments": [
-{
-  "type": "executiontime",
-  "style": "plain",
-  "template": "󱦟 {{ .FormattedMs }}  ",
-  "foreground": "#FACC15",
-  "properties": {
-    "threshold": 1000,
-    "style": "austin"
-  }
-},
+        {
+          "type": "executiontime",
+          "style": "plain",
+          "template": " 󱦟 {{ .FormattedMs }}",
+          "foreground": "#FACC15",
+          "properties": {
+            "threshold": 1000,
+            "style": "austin"
+          }
+        },
         {
           "type": "time",
           "style": "plain",
