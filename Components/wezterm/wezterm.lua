@@ -40,20 +40,34 @@ config.adjust_window_size_when_changing_font_size = false
 config.audible_bell = "Disabled"
 
 -- Launch Menu
-config.launch_menu = {
-    {
+config.launch_menu = {}
+
+if is_windows then
+    table.insert(config.launch_menu, {
         label = "PowerShell",
         args = { "pwsh.exe", "-NoLogo" },
-    },
-    {
+    })
+
+    table.insert(config.launch_menu, {
         label = "Windows PowerShell",
         args = { "powershell.exe", "-NoLogo" },
-    },
-    {
+    })
+
+    table.insert(config.launch_menu, {
         label = "Command Prompt",
         args = { "cmd.exe" },
-    },
-}
+    })
+elseif is_linux then
+    table.insert(config.launch_menu, {
+        label = "Bash",
+        args = { "/bin/bash", "-l" },
+    })
+
+    table.insert(config.launch_menu, {
+        label = "PowerShell",
+        args = { "pwsh", "-NoLogo" },
+    })
+end
 
 -- Keybindings
 config.keys = {
