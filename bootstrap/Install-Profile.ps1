@@ -23,7 +23,7 @@ param(
 . "$PSScriptRoot\Helpers\Backup.ps1"
 
 $RepoRoot = Split-Path -Parent $PSScriptRoot
-$SourceProfile = Join-Path $RepoRoot 'components\powershell\Profile.ps1'
+$SourceProfile = Join-Path $RepoRoot 'components\powershell\profile.ps1'
 $TargetProfile = $PROFILE
 
 if (-not (Test-Path $SourceProfile)) {
